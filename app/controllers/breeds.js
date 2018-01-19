@@ -1,7 +1,7 @@
 const breed = require('../models').breed;
 
 class BreedController {
-  create (request, response) {
+  save (request, response) {
     return breed
       .create({
         name: request.body.name,
@@ -9,7 +9,7 @@ class BreedController {
       .then(data => response.status(201).send(data))
       .catch(error => response.status(400).send(error));
   }
-  index (request, response) {
+  query (request, response) {
     return breed
       .all()
       .then(data => response.status(200).send(data))
@@ -27,6 +27,23 @@ class BreedController {
         return response.status(200).send(data)})
       .catch(err => response.status(400).send(err));
   }
+  update (request, response) {
+    return breed
+      .findById(request.params.id)
+      .then(data => {
+        if (!data) {
+          return response.status(404).send({
+            message: 'Breed Not Found'
+          });
+        }
+        return data.update({
+            name: request.body.name || data.name
+          })
+          .then(() => response.status(204).send(data))
+          .catch(err => response.status(400).send(err));
+      })
+      .catch(err => response.status(400).send(err));
+  }
   destroy (request, response) {
     return breed
       .findById(request.params.id)
@@ -39,7 +56,8 @@ class BreedController {
         return data.destroy()
           .then(() => response.status(204).send())
           .catch(err => response.status(400).send(err));
-      });
+      })
+      .catch(err => response.status(400).send(err));
   }
 }
 

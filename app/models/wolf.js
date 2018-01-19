@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     }
-  };
+  });
   wolf.associate = (models) => {
     wolf.belongsTo(models.breed, {
       foreignKey: 'breedId',

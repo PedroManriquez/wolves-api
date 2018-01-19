@@ -27,6 +27,20 @@ class BreedController {
         return response.status(200).send(data)})
       .catch(err => response.status(400).send(err));
   }
+  destroy (request, response) {
+    return breed
+      .findById(request.params.id)
+      .then(data => {
+        if (!data) {
+          return response.status(404).send({
+            message: 'Breed Not Found'
+          });
+        }
+        return data.destroy()
+          .then(() => response.status(204).send())
+          .catch(err => response.status(400).send(err));
+      });
+  }
 }
 
 module.exports = new BreedController(); 

@@ -7,7 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   breed.associate = (models) => {
-    // associations can be defined here
+    breed.hasMany(models.wolf, {
+      foreignKey: 'breedId',
+      as: 'wolves'
+    });
   };
   return breed;
 };

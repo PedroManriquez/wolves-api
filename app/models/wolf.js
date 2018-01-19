@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   wolf.associate = (models) => {
-    // associations can be defined here
-  }
+    wolf.belongsTo(models.breed, {
+      foreignKey: 'breedId',
+      onDelete: 'CASCADE'
+    });
+  };
   return wolf;
 };

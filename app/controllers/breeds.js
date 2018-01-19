@@ -4,7 +4,7 @@ module.exports = {
   create(request, response) {
     return breed
       .create({
-        title: request.body.name,
+        name: request.body.name,
       })
       .then(data => response.status(201).send(data))
       .catch(error => response.status(400).send(error));

@@ -5,6 +5,8 @@ class BreedController {
     return breed
       .create({
         name: request.body.name,
+        createdAt: new Date(),
+        updatedAt: new Date()
       })
       .then(data => response.status(201).send(data))
       .catch(error => response.status(400).send(error));
@@ -12,7 +14,10 @@ class BreedController {
   query (request, response) {
     return breed
       .all()
-      .then(data => response.status(200).send(data))
+      .then(data => response.status(200)
+        .send(data.map(d => {
+          return {id: d.id, name: d.name};
+        })))
       .catch(err => response.status(400).send(err));
   }
   get (request, response) {
@@ -37,7 +42,8 @@ class BreedController {
           });
         }
         return data.update({
-            name: request.body.name || data.name
+            name: request.body.name || data.name,
+            updatedAt: new Date()
           })
           .then(() => response.status(204).send(data))
           .catch(err => response.status(400).send(err));

@@ -1,6 +1,9 @@
 const breed = require('../models').breed;
 
 class BreedController {
+  constructor () {
+    this.props = ['id', 'name'];
+  }
   save (request, response) {
     return breed
       .create({
@@ -8,7 +11,12 @@ class BreedController {
         createdAt: new Date(),
         updatedAt: new Date()
       })
-      .then(data => response.status(201).send(data))
+      .then(data => response.status(201).send(Object.keys(data)
+        .filter(key => this.props.includes(key))
+        .reduce((obj, key) => {
+          obj[key] = data[key];
+          return obj;
+        })))
       .catch(error => response.status(400).send(error));
   }
   query (request, response) {
@@ -67,4 +75,4 @@ class BreedController {
   }
 }
 
-module.exports = new BreedController(); 
+module.exports = BreedController; 

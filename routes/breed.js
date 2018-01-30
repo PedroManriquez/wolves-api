@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const breed = require('../app/controllers/breeds');
-const cors = require('cors');
+const BreedController = require('../app/controllers/breeds');
+
+let breed = new BreedController();
 
 /* GET users listing. */
 router
-	.post('/breeds', cors(), breed.save)
-	.get('/breeds', cors(), breed.query)
-	.get('/breeds/:id', cors(), breed.get)
-	.put('/breeds/:id', cors(), breed.update)
-	.delete('/breeds/:id', cors(), breed.destroy);
+	.post('/breeds', breed.save)
+	.get('/breeds', breed.query)
+	.get('/breeds/:id', breed.get)
+	.put('/breeds/:id', breed.update)
+	.delete('/breeds/:id', breed.destroy);
 
 module.exports = router;
